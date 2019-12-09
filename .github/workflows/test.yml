@@ -1,0 +1,20 @@
+name: Test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: homebrew/brew
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Update
+        run: brew update
+      - name: Setup
+        run: |
+          mkdir -p $(dirname $(brew --repository $GITHUB_REPOSITORY))
+          ln -s $PWD $(brew --repository $GITHUB_REPOSITORY)
+      - name: Test
+        run: brew update-pypi-resources --verbose ansible
