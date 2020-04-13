@@ -15,10 +15,11 @@ module Homebrew
   module_function
 
   def name_and_version_from_url(url)
-    match = url&.match(%r{https://files.pythonhosted.org/packages/.*/.*/(.*)-(.*)\.(tar|zip)})
+    regex = %r{https://files.pythonhosted.org/packages/.+/.+/.+/(.+)-([\d.]+)(.*)?\.(tar|zip)}
+    match = url&.match(regex)
     if match
       name = match[1]
-      version = match[2]
+      version = match[2] + match[3]
       [name, version]
     end
   end
